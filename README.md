@@ -1,5 +1,12 @@
 # AI Job Hunter
 
+[![CI](https://github.com/Ahmed-Naseer-01/Ai-Job-hunter/actions/workflows/ci.yml/badge.svg)](https://github.com/Ahmed-Naseer-01/Ai-Job-hunter/actions/workflows/ci.yml)
+![License](https://img.shields.io/badge/license-Apache--2.0-blue)
+![Node](https://img.shields.io/badge/node-%E2%89%A5%2022.5-339933)
+![Next.js](https://img.shields.io/badge/Next.js-16-black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6)
+![Tests](https://img.shields.io/badge/tests-234%20passing-brightgreen)
+
 A personal, single-user job-hunting tool for a Java backend engineer. It collects postings from permitted
 sources, normalises and de-duplicates them, scores each against an editable profile with a fully explained
 0–100 score, keeps **eligibility separate from technical fit**, tracks applications, and emails a daily digest.
