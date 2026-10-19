@@ -1,0 +1,44 @@
+# Web dashboard + scheduler worker + PostgreSQL.
+#   cp .env.example .env     # set DASHBOARD_PASSWORD, AUTH_SECRET, APP_BASE_URL, (optional) email settings
+#   docker compose up -d --build
+# The dashboard listens on 127.0.0.1:3000 only. Put a TLS reverse proxy (Caddy/nginx) in front before exposing it.
+# Not verified end to end in the development environment (no Docker daemon was available there).
+x-app: &app
+  build: .
+  env_file: .env
+  environment:
+    DATABASE_URL: postgres://jobhunter:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}@db:5432/jobhunter
+    NODE_ENV: production
+  depends_on:
+    db:
+      condition: service_healthy
+  restart: unless-stopped
+
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: jobhunter
+      POSTGRES_DB: jobhunter
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jobhunter"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  web:
+    <<: *app
+    command: ["npm", "run", "start"]
+    ports:
+      - "127.0.0.1:3000:3000"
+
+  worker:
+    <<: *app
+    command: ["npm", "run", "worker"]
+
+volumes:
+  pgdata:

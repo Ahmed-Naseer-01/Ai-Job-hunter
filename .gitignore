@@ -1,0 +1,14 @@
+node_modules
+.next
+next-env.d.ts
+*.tsbuildinfo
+.env
+.env.local
+.env.*.local
+data/
+!data/.gitkeep
+coverage
+.DS_Store
+
+# IDE
+.idea/
